@@ -10,13 +10,13 @@ windows.options(width=480, height=480)
 data<-read.csv.sql("household_power_consumption.txt","select * from file where Date in ('1/2/2007','2/2/2007')",sep=";",na.strings="?")
 ## Close the connection
 sqldf()
-##Add a datetime (dt) column from the values in Date and Time
-dated<-mutate(data,dt=as.POSIXct(paste(Date ,Time),format="%d/%m/%Y %H:%M:%S"))
+##Add a datetime column from the values in Date and Time
+dated<-mutate(data,datetime=as.POSIXct(paste(Date ,Time),format="%d/%m/%Y %H:%M:%S"))
 
 ## Create the plot
-png("Plot3.png")
-plot(dated$Sub_metering_1 ~dated$dt ,type="l",ylab="Energy sub metering",xlab="")
-lines(dated$Sub_metering_2 ~dated$dt ,col="red")
-lines(dated$Sub_metering_3 ~dated$dt ,col="blue")
+png("plot3.png")
+plot(dated$Sub_metering_1 ~dated$datetime ,type="l",ylab="Energy sub metering",xlab="")
+lines(dated$Sub_metering_2 ~dated$datetime ,col="red")
+lines(dated$Sub_metering_3 ~dated$datetime ,col="blue")
 legend("topright",c("Sub_metering_1","Sub_metering_2","Sub_metering_3"),lty=1,col=c("black","red","blue"))
 dev.off()
